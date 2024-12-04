@@ -1,0 +1,90 @@
+
+CREATE TABLE Produto (
+    codigo INTEGER PRIMARY KEY,
+    material TEXT,
+    nome TEXT,
+    valor REAL,
+    marca TEXT,
+    cor TEXT,
+    tamanho TEXT
+);
+
+
+CREATE TABLE Calca (
+    codigo INTEGER PRIMARY KEY, 
+    qunt_bolsos INTEGER,
+    colecao TEXT,
+    FOREIGN KEY (codigo) REFERENCES Produto(codigo)
+);
+
+
+CREATE TABLE Acessorio (
+    codigo INTEGER PRIMARY KEY,  
+    parte_do_corpo TEXT,
+    peso REAL,
+    FOREIGN KEY (codigo) REFERENCES Produto(codigo)
+);
+
+-- Table for Camiseta (Child of Produto)
+CREATE TABLE Camiseta (
+    codigo INTEGER PRIMARY KEY,  
+    altura REAL,
+    largura REAL,
+    manga TEXT,
+    ombro REAL,
+    FOREIGN KEY (codigo) REFERENCES Produto(codigo)
+);
+
+
+CREATE TABLE Cliente (
+    CPF TEXT PRIMARY KEY,
+    nome TEXT,
+    email TEXT
+);
+
+
+CREATE TABLE Funcionario (
+    identificacao TEXT PRIMARY KEY,
+    nome TEXT,
+    setor TEXT,
+    supervisor TEXT,  
+    FOREIGN KEY (supervisor) REFERENCES Funcionario(identificacao)
+);
+
+
+CREATE TABLE Venda (
+    codigo INTEGER, 
+    cpf TEXT,       
+    identificacao INTEGER,  
+    endereco TEXT,
+    valor REAL,
+    PRIMARY KEY (codigo, cpf, identificacao),
+    FOREIGN KEY (codigo) REFERENCES Produto(codigo),
+    FOREIGN KEY (cpf) REFERENCES Cliente(CPF),
+    FOREIGN KEY (identificacao) REFERENCES Funcionario(identificacao)
+);
+
+
+INSERT INTO Produto (codigo, material, nome, valor, marca, cor, tamanho) VALUES (19, 'algodão', 'figura Ferro de passar roupa', 119.99, 'Chanel', 'Branco', NULL);
+INSERT INTO Produto (codigo, material, nome, valor, marca, cor, tamanho) VALUES (22, 'jeans', 'calca jeans', 129.99, 'Dolce & Gabbana', 'Azul', '17');
+INSERT INTO Produto (codigo, material, nome, valor, marca, cor, tamanho) VALUES (23, 'Fragrância', 'Perfume feminino', 149.99, 'Louis Vuitton', 'Rosa', '100ml');
+INSERT INTO Produto (codigo, material, nome, valor, marca, cor, tamanho) VALUES (24, 'algodão', 'calça uribe', 14.99, 'Gucci', 'Branco', '14');
+INSERT INTO Produto (codigo, material, nome, valor, marca, cor, tamanho) VALUES (25, 'jeans', 'calça nave', 8.99, 'Prada', 'Transparente', '19');
+
+INSERT INTO Calca (codigo,qunt_bolsos, colecao) VALUES (22, 3, 'verao intenso');
+INSERT INTO Calca (codigo,qunt_bolsos, colecao) VALUES (25, 0, 'verao intenso');
+INSERT INTO Calca (codigo,qunt_bolsos, colecao) VALUES (24, 2, 'inverno recluso');
+
+
+INSERT INTO Acessorio(codigo, parte_do_corpo, peso) VALUES (23, 'corpo', '100g');
+INSERT INTO Camiseta(codigo, altura, largura, manga, ombro) VALUES (19, 10.2,192,10.2,102);
+
+
+INSERT INTO Cliente(CPF,nome, email) VALUES('1','Wellington Nunes', 'Wellington_Nunes@gmai.com')
+INSERT INTO Cliente(CPF,nome, email) VALUES('2','Jéssica Lima', 'Jéssica Lima@gmai.com')
+
+insert into Funcionario(identificacao, nome, setor, supervisor) VALUES('2', 'Beatriz Oliveira', 'ADMINISTRACAO', NULL)
+insert into Funcionario(identificacao, nome, setor, supervisor) VALUES('1', 'Carlos Nunes', 'vendas', '2')
+
+INSERT INTO Venda(codigo, cpf, identificacao, endereco, valor) VALUES (19, '1', '1', 'rua dos bobos n°0', 119.99)
+INSERT INTO Venda(codigo, cpf, identificacao, endereco, valor) VALUES (19, '1', '1', 'rua dos bobos n°0', 399.98)
